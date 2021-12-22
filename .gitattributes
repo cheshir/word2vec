@@ -1,1 +1,5 @@
 data filter=lfs diff=lfs merge=lfs -text
+data/sentences_full.txt filter=lfs diff=lfs merge=lfs -text
+data/sentences_small.txt filter=lfs diff=lfs merge=lfs -text
+data/source_full.txt filter=lfs diff=lfs merge=lfs -text
+data/source_small.txt filter=lfs diff=lfs merge=lfs -text
