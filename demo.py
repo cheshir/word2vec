@@ -7,10 +7,20 @@ class Model:
         self.model = gensim.models.Word2Vec.load('models/lurk_full.gensim.model.bin')
 
     def predict_next_word(self, context, topn=10):
+        """
+        :param context: str
+        :param length: int
+        :return:
+        """
         context = [self.normalize(word) for word in context.split()]
         return self.model.predict_output_word(context, topn=topn)
 
     def sentence_from_context(self, context, length=7):
+        """
+        :param context: str
+        :param length: int
+        :return: str
+        """
         sentence = []
         for i in range(length):
             next_words = self.predict_next_word(context, topn=5)
@@ -21,11 +31,26 @@ class Model:
         return ' '.join(sentence)
 
     def most_similar(self, query):
+        """
+        :param query: str
+        :return:
+        """
         positive, negative = self.parse_most_similar_query(query)
         return self.model.wv.most_similar(positive=positive, negative=negative)
 
+    def less_similar(self, words):
+        """
+        :param words: str
+        :return:
+        """
+        return self.model.wv.doesnt_match(words.split())
+
     @staticmethod
     def parse_most_similar_query(query):
+        """
+        :param query: str
+        :return: ([]str, []str)
+        """
         tokens = query.lower().split()
         positive = []
         negative = []
@@ -44,4 +69,8 @@ class Model:
 
     @staticmethod
     def normalize(word):
+        """
+        :param word: str
+        :return: str
+        """
         return word.lower()
