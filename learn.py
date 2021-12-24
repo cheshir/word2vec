@@ -1,5 +1,6 @@
 import gensim
 import re
+import normalize
 
 sanitize_re = re.compile('[^\sa-zа-я]+', re.UNICODE | re.IGNORECASE)
 
@@ -11,8 +12,9 @@ class SentencesReader:
     def __iter__(self):
         for sentence in open(self.doc_path, 'r').readlines():
             preprocessed = gensim.utils.simple_preprocess(sentence)
-            if len(preprocessed) > 0:
-                yield preprocessed
+            normalized = normalize.word_list(preprocessed)
+            if len(normalized) > 0:
+                yield normalized
 
     @staticmethod
     def sanitize(string):
